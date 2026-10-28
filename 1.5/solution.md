@@ -171,7 +171,7 @@ Ingress Class:    nginx
 Rules:
   Host        Path  Backends
   ----        ----  --------
-  *           
+  *
               /api   backend-svc:8080 (10.1.184.40:8080)
               /      frontend-svc:80 (10.1.184.59:80,10.1.184.20:80,10.1.184.36:80)
 Annotations:  nginx.ingress.kubernetes.io/rewrite-target: /
