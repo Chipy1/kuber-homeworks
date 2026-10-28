@@ -1,0 +1,30 @@
+# Исправленный Deployment web-consumer.
+# Отличия от исходного files/task.yaml:
+#   1. сервис вызывается по полному имени auth-db.data.svc.cluster.local,
+#      а не по короткому auth-db (которое ищется только в своём namespace web);
+#   2. образ заменён на wbitt/network-multitool, потому что radial/busyboxplus:curl
+#      отдаётся со schema 1 manifest и containerd 2.1.6 его не принимает.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-consumer
+  namespace: web
+  labels:
+    app: web-consumer
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web-consumer
+  template:
+    metadata:
+      labels:
+        app: web-consumer
+    spec:
+      containers:
+      - name: busybox
+        image: wbitt/network-multitool
+        command:
+        - sh
+        - -c
+        - while true; do curl -sS http://auth-db.data.svc.cluster.local; sleep 5; done

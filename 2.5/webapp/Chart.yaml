@@ -1,0 +1,6 @@
+apiVersion: v2
+name: webapp
+description: Двухкомпонентное приложение (nginx frontend + multitool backend) для домашки по Helm
+type: application
+version: 0.1.0
+appVersion: "1.0"

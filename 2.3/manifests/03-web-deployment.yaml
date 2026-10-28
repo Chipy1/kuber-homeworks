@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: hw23
+  labels:
+    app: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - name: http
+              containerPort: 80
+          volumeMounts:
+            - name: web-content
+              mountPath: /usr/share/nginx/html/index.html
+              subPath: index.html
+              readOnly: true
+        - name: multitool
+          image: wbitt/network-multitool
+          envFrom:
+            - configMapRef:
+                name: multitool-config
+          ports:
+            - name: mt-http
+              containerPort: 8080
+            - name: mt-https
+              containerPort: 8443
+      volumes:
+        - name: web-content
+          configMap:
+            name: web-content

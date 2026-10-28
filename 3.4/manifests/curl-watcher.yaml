@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: curl-watcher
+  namespace: hw34
+  labels:
+    app: curl-watcher
+spec:
+  restartPolicy: Never
+  containers:
+    - name: curl
+      image: wbitt/network-multitool
+      command:
+        - /bin/sh
+        - -c
+        - |
+          i=0
+          while [ "$i" -lt 400 ]; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 2 http://web-svc.hw34.svc.cluster.local/)
+            echo "$(date +%H:%M:%S) $code"
+            i=$((i+1))
+            sleep 0.2
+          done

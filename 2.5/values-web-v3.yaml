@@ -1,0 +1,9 @@
+# Релиз web-v3, namespace app2: nginx 1.27
+frontend:
+  replicaCount: 1
+  image:
+    repository: nginx
+    tag: "1.27"
+
+backend:
+  replicaCount: 1

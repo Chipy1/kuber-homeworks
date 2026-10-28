@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netology-init
+  namespace: hw13
+  labels:
+    app: netology-init
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: netology-init
+  template:
+    metadata:
+      labels:
+        app: netology-init
+    spec:
+      initContainers:
+        - name: wait-for-svc
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - 'until nslookup netology-init-svc.hw13.svc.cluster.local; do echo "waiting for netology-init-svc"; sleep 2; done'
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - name: http
+              containerPort: 80

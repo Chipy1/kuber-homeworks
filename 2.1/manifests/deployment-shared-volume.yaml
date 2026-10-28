@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shared-volume
+  namespace: hw21
+  labels:
+    app: shared-volume
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shared-volume
+  template:
+    metadata:
+      labels:
+        app: shared-volume
+    spec:
+      containers:
+        - name: busybox
+          image: busybox:1.36
+          command:
+            - /bin/sh
+            - -c
+            - |
+              while true; do
+                TS="$(date '+%Y-%m-%d %H:%M:%S')"
+                echo "$TS busybox tick" >> /shared/data.txt
+                echo "wrote '$TS busybox tick' to /shared/data.txt"
+                sleep 5
+              done
+          volumeMounts:
+            - name: shared
+              mountPath: /shared
+        - name: multitool
+          image: wbitt/network-multitool
+          command:
+            - /bin/sh
+            - -c
+            - |
+              touch /shared/data.txt
+              tail -F /shared/data.txt
+          volumeMounts:
+            - name: shared
+              mountPath: /shared
+      volumes:
+        - name: shared
+          emptyDir: {}

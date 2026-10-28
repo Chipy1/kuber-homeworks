@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: multitool-config
+  namespace: hw23
+data:
+  # по умолчанию multitool тоже занимает 80 и 443, как и nginx в том же поде,
+  # поэтому переносим его веб-сервер на другие порты
+  HTTP_PORT: "8080"
+  HTTPS_PORT: "8443"

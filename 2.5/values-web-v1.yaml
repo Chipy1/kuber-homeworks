@@ -1,0 +1,10 @@
+# Релиз web-v1, namespace app1.
+# Ставился сначала с nginx 1.19, затем поднял до 1.20 через helm upgrade.
+frontend:
+  replicaCount: 2
+  image:
+    repository: nginx
+    tag: "1.20"
+
+backend:
+  replicaCount: 1

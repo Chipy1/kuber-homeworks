@@ -1,0 +1,25 @@
+# Вынужденная правка исходного манифеста: образ radial/busyboxplus:curl
+# собран со schema 1 image manifest, который containerd 2.x больше не принимает.
+# Меняем только image, команда и остальная логика остаются как в files/task.yaml.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-consumer
+  namespace: web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web-consumer
+  template:
+    metadata:
+      labels:
+        app: web-consumer
+    spec:
+      containers:
+      - command:
+        - sh
+        - -c
+        - while true; do curl auth-db; sleep 5; done
+        image: wbitt/network-multitool
+        name: busybox

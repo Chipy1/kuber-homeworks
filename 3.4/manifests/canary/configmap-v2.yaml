@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-v2-page
+  namespace: hw34
+data:
+  index.html: |
+    <html>
+      <head><title>hw34 canary</title></head>
+      <body>
+        <h1>version: v2</h1>
+        <p>canary release, 20% of traffic</p>
+      </body>
+    </html>

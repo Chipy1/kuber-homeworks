@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multitool-test
+  namespace: hw14
+  labels:
+    app: multitool-test
+spec:
+  containers:
+    - name: multitool
+      image: wbitt/network-multitool
+      env:
+        - name: HTTP_PORT
+          value: "8080"
+        - name: HTTPS_PORT
+          value: "8443"

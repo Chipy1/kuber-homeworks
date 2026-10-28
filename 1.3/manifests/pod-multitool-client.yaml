@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multitool-client
+  namespace: hw13
+  labels:
+    app: multitool-client
+spec:
+  containers:
+    - name: multitool
+      image: wbitt/network-multitool

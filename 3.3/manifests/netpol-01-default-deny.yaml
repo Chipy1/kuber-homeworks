@@ -1,0 +1,12 @@
+# Базовое правило: весь трафик в namespace app запрещён в обе стороны.
+# Любая разрешающая политика ниже добавляется к этому запрету как исключение.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: app
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress

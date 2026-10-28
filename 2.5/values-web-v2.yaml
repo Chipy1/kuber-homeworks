@@ -1,0 +1,9 @@
+# Релиз web-v2, namespace app1: nginx 1.26
+frontend:
+  replicaCount: 1
+  image:
+    repository: nginx
+    tag: "1.26"
+
+backend:
+  replicaCount: 1

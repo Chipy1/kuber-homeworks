@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: secure-ingress
+  namespace: hw23
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - hw23.local
+      secretName: hw23-tls
+  rules:
+    - host: hw23.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: secure-svc
+                port:
+                  number: 80

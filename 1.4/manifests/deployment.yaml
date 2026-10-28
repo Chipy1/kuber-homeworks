@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netology-app
+  namespace: hw14
+  labels:
+    app: netology-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: netology-app
+  template:
+    metadata:
+      labels:
+        app: netology-app
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - name: http
+              containerPort: 80
+        - name: multitool
+          image: wbitt/network-multitool
+          env:
+            # По умолчанию multitool занимает 80/443 и конфликтует с nginx
+            # в одном сетевом namespace пода.
+            - name: HTTP_PORT
+              value: "8080"
+            - name: HTTPS_PORT
+              value: "8443"
+          ports:
+            - name: mt-http
+              containerPort: 8080
+            - name: mt-https
+              containerPort: 8443

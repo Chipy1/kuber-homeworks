@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: node-logs
+  namespace: hw21
+  labels:
+    app: node-logs
+spec:
+  selector:
+    matchLabels:
+      app: node-logs
+  template:
+    metadata:
+      labels:
+        app: node-logs
+    spec:
+      # запускаемся на любом узле, даже если на нём висят taints
+      tolerations:
+        - operator: Exists
+      containers:
+        - name: multitool
+          image: wbitt/network-multitool
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "node logs are mounted at /host-log"
+              sleep infinity
+          volumeMounts:
+            - name: host-log
+              mountPath: /host-log
+              readOnly: true
+      volumes:
+        - name: host-log
+          hostPath:
+            path: /var/log
+            type: Directory

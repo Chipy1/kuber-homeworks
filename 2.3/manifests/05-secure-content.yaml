@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: secure-content
+  namespace: hw23
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+      <meta charset="utf-8">
+      <title>Netology. Kubernetes homework 2.3 — HTTPS</title>
+      <style>
+        body { margin: 0; font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+               background: radial-gradient(circle at 20% 0%, #123a2b, #08110d 70%);
+               color: #e6f2ea; min-height: 100vh; }
+        .wrap { max-width: 720px; margin: 0 auto; padding: 72px 24px; }
+        .card { border: 1px solid #1f4d3a; border-radius: 14px;
+                padding: 28px 32px; background: rgba(10, 30, 22, 0.85); }
+        h1 { margin: 0 0 10px; font-size: 1.8rem; }
+        p  { margin: 8px 0 0; line-height: 1.6; color: #9dc4b0; }
+        .tag { display: inline-block; margin-bottom: 14px; padding: 4px 10px;
+               border-radius: 999px; background: #1f7a52; color: #ecfdf5;
+               font-size: .8rem; letter-spacing: .04em; }
+        code { color: #86efac; }
+      </style>
+    </head>
+    <body>
+      <div class="wrap">
+        <div class="card">
+          <span class="tag">HTTPS</span>
+          <h1>Netology. Kubernetes homework 2.3</h1>
+          <p>Страница из ConfigMap <code>secure-content</code>, отдаётся nginx
+             через Service <code>secure-svc</code> и Ingress
+             <code>secure-ingress</code>.</p>
+          <p>Хост: <code>hw23.local</code>, сертификат самоподписной
+             из Secret <code>hw23-tls</code>.</p>
+        </div>
+      </div>
+    </body>
+    </html>
