@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hw22-nfs-provisioner
+  namespace: hw22
+  labels:
+    app: hw22-nfs-provisioner
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: hw22-nfs-provisioner
+  template:
+    metadata:
+      labels:
+        app: hw22-nfs-provisioner
+    spec:
+      serviceAccountName: hw22-nfs-provisioner
+      containers:
+        - name: nfs-provisioner
+          image: registry.k8s.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2
+          env:
+            - name: PROVISIONER_NAME
+              value: hw22.nfs.client
+            # ClusterIP сервиса nfs-server вместо DNS-имени: NFS монтирует kubelet
+            # с хоста, а там cluster.local не резолвится. Подробности в solution.md.
+            - name: NFS_SERVER
+              value: 10.152.183.56
+            - name: NFS_PATH
+              value: /
+          volumeMounts:
+            - name: nfs-root
+              mountPath: /persistentvolumes
+      volumes:
+        - name: nfs-root
+          nfs:
+            server: 10.152.183.56
+            path: /
